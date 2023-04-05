@@ -7,9 +7,9 @@ function [aperiodic, periodic, raw] = IRASA(data)
 %parfor loop. 
 
 %initialize some variables for the frequency decomposition
-frex = logspace(log10(2),log10(80),100);
+frex = logspace(log10(2),log10(30),50);
 numfrex = length(frex); 
-stds = linspace(2,5,numfrex);
+stds = linspace(2,4,numfrex);
 fs = 1000; 
 h = [1.1:.05:1.9];
 

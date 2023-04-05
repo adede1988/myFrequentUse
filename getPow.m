@@ -25,7 +25,7 @@ function [allPow] = getPow(dat, frex, numfrex, stds, srate)
 
     allPow = zeros(size(dat,1), numfrex, size(dat,3)); 
      
-    for snip = 1:size(dat,3)
+    parfor snip = 1:size(dat,3)
         
         hz = linspace(0, srate, size(dat,2)*3 );
         snipDat = dat(:,:,snip);
