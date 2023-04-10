@@ -78,6 +78,7 @@ function [ispc] = getChanISPC(trialDat, trialDat2, frex, numfrex, stds, srate, d
 
         %implementing pairwise phase consistency from Vink et al., 2010 
         difs = fDat - fDat2; 
+        N = size(difs,2); 
         %equation 14
         ispc(:,fi,2) = mean(...
                     cell2mat(arrayfun(@(j) ...
