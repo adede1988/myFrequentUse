@@ -15,7 +15,7 @@ function [ispc] = getChanISPC(trialDat, trialDat2, frex, numfrex, stds, srate, d
     padDat2 = mirrorPad(trialDat2(:,trials)); 
 
    
-    bootSamps = 1000; 
+    bootSamps = 100; 
     hz = linspace(0, srate, size(padDat,1) );
 
     fftDat = fft(padDat); 
@@ -23,7 +23,7 @@ function [ispc] = getChanISPC(trialDat, trialDat2, frex, numfrex, stds, srate, d
 
    
     for fi = 1:numfrex
-        
+       
         % create Gaussian
         s  = stds(fi)*(2*pi-1)/(4*pi); % normalized width
         x  = hz-frex(fi);                 % shifted frequencies (pre insert the mean for the gaussian)
