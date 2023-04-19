@@ -23,7 +23,7 @@ if size(data,1)>1
     parfor tt = 1:size(data,3)
         curSnip = double(data(:,:,tt)); 
     
-        tt
+       
     
         fftN = size(curSnip,2)*3; 
         nChan = size(curSnip,1); 
