@@ -5,7 +5,7 @@ function zDat = myChanZscore(data)
 %zDat:              trials X time 
 
 
-nsamps = 100; 
+nsamps = 1000; 
 
 %permute it to channels X time X trials
 % data = permute(data, [2,3,1]); 
