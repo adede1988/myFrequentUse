@@ -1,5 +1,5 @@
 %some scratch spike sorting
-
+load('C:\Users\dtf8829\Downloads\chanSum_mlam7 (1).mat')
 %get chansum file from Sam. 
 %load it in! 
 
@@ -24,6 +24,9 @@ down_a = a(:,downs);
 upIDs = unique(upClust); 
 downIDs = unique(downClust); 
 
+
+
+
 % colors = {[0,0,1,.5], 'red', 'blue', 'black'}; 
 % ci = 1;
 % figure
@@ -41,10 +44,11 @@ end
 
 for ii = 1:length(downIDs)
      if sum(downClust==downIDs(ii))>100
-        figure
+        figure('visible', false)
         hold on
         plot(wf', 'color', [0,0,0,.01])
         plot(down_wf(downClust==downIDs(ii), :)', 'color', [34/256, 139/256, 34/256, .1])
+        export_fig(join([  '.jpg'],''), '-r300')
     end
 
 

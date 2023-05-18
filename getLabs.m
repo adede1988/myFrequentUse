@@ -77,7 +77,7 @@ elseif strcmp(notes.Properties.VariableNames(2), 'originalLabel')
 
 end
 catch
-disp(['misnamed note'])
+disp(['possible misnamed notes'])
 end
 
 %% check for nan electrodes and eliminate
@@ -92,7 +92,7 @@ end
 
 %% hard code a bunch of codes: 
 
-ignore = {'wm', 'ofb', 'oob', 'white matter', 'ventricle', 'csf', 'WM', 'out of brain', 'white mat', 'lateral ventracle', 'corpus collosum', 'white', 'lesion'}; 
+ignore = {'wm', 'ofb', 'oob', 'ventricle', 'csf', 'WM', 'out of brain', 'white mat', 'lateral ventracle', 'corpus collosum', 'white', 'lesion'}; 
 sfs = {'sfs', 'SFS', 'superior frontal sulcus', 'SFC'};
 acc = {'acc', 'aCC', 'ant cingulate', 'anterior cingulate', 'anterior cingulate cortex', 'corpus collosum/cing', 'cingulate'}; 
 hip = {'hip', 'ca1', 'CA1', 'dg', 'DG', 'CA3', 'ca3', 'Hip', 'subiculum'}; 
@@ -102,7 +102,6 @@ ifg = {'ifg', 'inf frontal', 'IFG', 'inferior frontal gyrus', 'Inferior frontal 
 mfs = {'mfs', 'medial frontal sulcus', 'middle/superiorfrontal sulcus', 'MFS', 'MF sulcus', 'middle frontal sulcus'}; 
 cls = {'cls', 'claustrum'}; 
 ins = {'ins', 'insula', 'Insula', 'parietal operculum'}; 
-mpfc= {'MPFC', 'mpfc', 'mPFC', 'medial PFC', 'medial frontal cortex'}; 
 ofc = {'ofc', 'OFC', 'orbital frontal cortex', 'OFG', 'orbital frontal'}; 
 bg = {'striatum', 'str', 'Caudate', 'caudate', 'BG'};
 ifs = {'IFS', 'inferior frontal sulcus', 'ifs', 'IFG sulcus', 'inferior/frontal sulcus'}; 
@@ -141,7 +140,7 @@ thal = {'thalamus', 'STN', 'Thalamus'};
 
 errorReport = struct; 
 ei = 1; 
-labels = cell(size(elec.label,1),3); 
+labels = cell(size(elec.label,1),5); %chan 1 out, chan 2 out, final out, chan 1 in, chan 2 in
 for li = 1:length(elec.label)
     curLab = elec.label{li}; 
     [ch, ~] = split(curLab, '-');
@@ -170,23 +169,12 @@ for li = 1:length(elec.label)
             labels{li, 1} = {'NO NOTES'};
             labels{li, 2} = {'NO NOTES'};
         else
-%         
-%         %switch channel 2 into channel 1 position if it's got nothing,
-%         %otherwise default to using channel 1 location meeting note
-%         if sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(x, ch1), ignore, 'uniformoutput', false))) > 0
-%             ch1 = ch2; 
-%             if sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(x,ch1), ignore, 'uniformoutput', false))) > 0
-%                 errorReport(ei).elec = li; 
-%                 errorReport(ei).flag = 'bothBad';
-%                 ei = ei+1; 
-%                 labels{li} = 'ZZZ';
-%             end
-%         end
+
 
         chi = [ch1i, ch2i]; 
         for ii = 1:2
             ch = notes.LocMeeting{chi(ii)};
-
+            labels{li,ii+3} = ch; %store the original inputs! 
         if sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), sfs, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'sfs'; 
                 %superior frontal sulcus
@@ -214,9 +202,6 @@ for li = 1:length(elec.label)
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), ins, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'ins'; 
                 %insula 
-        elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), mpfc, 'uniformoutput', false))) > 0
-                labels{li,ii} = 'mpfc'; 
-                %medial prefrontal cortex 
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), ofc, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'ofc'; 
                 %orbital frontal cortex
@@ -319,7 +304,7 @@ for li = 1:length(elec.label)
         end
 
 
-    else %anatomy based! 
+    else % couldn't use notes
 
         labels{li, 1} = {'NO NOTES'};
         labels{li, 2} = {'NO NOTES'};
