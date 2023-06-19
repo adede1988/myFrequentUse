@@ -101,6 +101,7 @@ mfg = {'mfg', 'med frontal', 'medial frontal gyrus', 'mid frontal gyrus', 'MFG',
 ifg = {'ifg', 'inf frontal', 'IFG', 'inferior frontal gyrus', 'Inferior frontal gyrus', 'inferior lateral frontal', 'inferior temporal cortex'}; 
 mfs = {'mfs', 'medial frontal sulcus', 'middle/superiorfrontal sulcus', 'MFS', 'MF sulcus', 'middle frontal sulcus'}; 
 cls = {'cls', 'claustrum'}; 
+mpfc = {'MPFC'};
 ins = {'ins', 'insula', 'Insula', 'parietal operculum'}; 
 ofc = {'ofc', 'OFC', 'orbital frontal cortex', 'OFG', 'orbital frontal'}; 
 bg = {'striatum', 'str', 'Caudate', 'caudate', 'BG'};
@@ -190,6 +191,9 @@ for li = 1:length(elec.label)
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), mfg, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'mfg'; 
                 %medial frontal gyrus 
+        elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), mpfc, 'uniformoutput', false))) > 0
+                labels{li,ii} = 'mpfc'; 
+                %medial prefrontal cortex 
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), ifg, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'ifg'; 
                 %inferior frontal gyrus  
