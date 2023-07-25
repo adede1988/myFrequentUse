@@ -1,4 +1,4 @@
-function [z, p] = corrdiff(r1, r2, n1, n2)
+function [z] = corrdiff(r1, r2, n1, n2)
 
 % Fisher's z-transform to normalize correlation coefficients
 z1 = 0.5 .* log(ones(size(r1)) + r1) ./ (ones(size(r1)) - r1);
@@ -12,7 +12,7 @@ se = sqrt((1 / (n1 - 3)) + (1 / (n2 - 3)));
 z = zdiff ./ se;
 
 % Calculate p-value
-p = ones(size(z)) - normcdf(abs(z));
+% p = ones(size(z)) - normcdf(abs(z));
 
 clear r1 r2 n1 n2 z1 z2 zdiff se
 
