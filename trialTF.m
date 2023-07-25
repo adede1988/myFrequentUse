@@ -23,7 +23,7 @@ for snip = 1:size(trialTF,1)
 
             %filter 
             fDat = ifft( fftDat.*fx');
-            %take the mean power over trials
+            %convert to power
             trialTF(snip,:,fi) = 2*real(fDat(length(snipDat)+1:length(snipDat)*2 )).^2;
            
         end
