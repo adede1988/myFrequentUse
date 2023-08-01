@@ -84,7 +84,7 @@ null_neg = nan(numrnd, 1);
 indvec(1:rnddim) = {':'};
 for k = 1:numrnd
     if mod(k, round(numrnd/10)) == 0
-%         fprintf('processing permutation %d of %d...\n', k, numrnd);
+        fprintf('processing permutation %d of %d...\n', k, numrnd);
     end
     
     indvec{rnddim} = k;
@@ -161,7 +161,7 @@ if tail <= 0
         end
         
         if nargout > 2
-            clusterinfo.neg_clusters(k).clusterstat = clus_observed_neg(k);
+            clusterinfo.pos_clusters(k).clusterstat = clus_observed_neg(k);
             clusterinfo.neg_clusters(k).p = clus_p_neg(k);
             clusterinfo.neg_clusters(k).inds = false(size(datobs));
             clusterinfo.neg_clusters(k).inds(neg_inds{k}) = 1;

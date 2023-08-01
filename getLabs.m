@@ -37,44 +37,6 @@ catch
     
 end
 
-%% check for non standard Electrode column
-
-try 
-    if strcmp(notes.Properties.VariableNames(1), 'Coordinate_Label')
-        notes.Electrode = notes.Coordinate_Label;
-    
-        %this one's got some '^' characters dumbly in its probe names
-        for li = 1:length(notes.Electrode)
-            curLab = notes.Electrode{li}; 
-            test =  strfind( curLab,'^');
-            if ~isempty(test)
-                notes.Electrode{li} = [curLab(1:test-1) curLab(test+1:end)];
-            end
-        end
-        %it also has extra apostrophes for no comprehendible reason
-        for li = 1:length(notes.Electrode)
-            curLab = notes.Electrode{li}; 
-            notes.Electrode{li} = curLab(2:end-1); 
-        end
-
-
-    end
-    
-catch
-
-end
-
-%% labels Electrode column
-
-
-try
-     if strcmp(notes.Properties.VariableNames(1), 'labels')
-        notes.Electrode = notes.labels;
-     end
-catch
-
-end
-
 %% check for dumbly named electrodes
 
 try
@@ -115,35 +77,8 @@ elseif strcmp(notes.Properties.VariableNames(2), 'originalLabel')
 
 end
 catch
-
+disp(['possible misnamed notes'])
 end
-
-
-%% notes and data labels don't match
-try
-    if strcmp(notes.Coordinates(1), '-17.7069     0.638873     -23.6202')
-        for li = 1:length(notes.Electrode)
-            curLab = notes.Electrode{li}; 
-            curLab = split(curLab, '_');
-            curLab = curLab{1};
-            notes.Electrode{li} = [curLab(1) '_' curLab(2:end)];
-        end
-
-        for li = 1:length(elec.label)
-            curLab = elec.label{li}; 
-            curLab = split(curLab, "'"); 
-            elec.label{li} = [curLab{1} '_' curLab{2} '_' curLab{3}];
-        end
-
-
-
-
-
-
-    end
-catch
-end
-
 
 %% check for nan electrodes and eliminate
 
@@ -159,41 +94,40 @@ end
 
 ignore = {'wm', 'ofb', 'oob', 'ventricle', 'csf', 'WM', 'out of brain', 'white mat', 'lateral ventracle', 'corpus collosum', 'white', 'lesion'}; 
 sfs = {'sfs', 'SFS', 'superior frontal sulcus', 'SFC'};
-acc = {'acc', 'aCC', 'ACC', 'ant cingulate', 'anterior cingulate', 'anterior cingulate cortex', 'corpus collosum/cing', 'cingulate'}; 
-hip = {'hip', 'ca1', 'CA1', 'dg', 'DG', 'CA3', 'ca3', 'Hip', 'subiculum', 'uncus'}; 
+acc = {'acc', 'aCC', 'ant cingulate', 'anterior cingulate', 'anterior cingulate cortex', 'corpus collosum/cing', 'cingulate'}; 
+hip = {'hip', 'ca1', 'CA1', 'dg', 'DG', 'CA3', 'ca3', 'Hip', 'subiculum'}; 
 sfg = {'sfg', 'SFG', 'sup frontal', 'superior frontal gyrus'};
 mfg = {'mfg', 'med frontal', 'medial frontal gyrus', 'mid frontal gyrus', 'MFG', 'middle frontal gyrus', 'post med frontal/supp motor'}; 
 ifg = {'ifg', 'inf frontal', 'IFG', 'inferior frontal gyrus', 'Inferior frontal gyrus', 'inferior lateral frontal', 'inferior temporal cortex'}; 
 mfs = {'mfs', 'medial frontal sulcus', 'middle/superiorfrontal sulcus', 'MFS', 'MF sulcus', 'middle frontal sulcus'}; 
 cls = {'cls', 'claustrum'}; 
-mpfc = {'MPFC', 'medial frontal cortex'};
 ins = {'ins', 'insula', 'Insula', 'parietal operculum'}; 
 ofc = {'ofc', 'OFC', 'orbital frontal cortex', 'OFG', 'orbital frontal'}; 
-bg = {'striatum', 'str', 'Caudate', 'caudate', 'BG', 'putamen'};
+bg = {'striatum', 'str', 'Caudate', 'caudate', 'BG'};
 ifs = {'IFS', 'inferior frontal sulcus', 'ifs', 'IFG sulcus', 'inferior/frontal sulcus'}; 
-phg = {'ERC', 'EC', 'entorhinal', 'PHG', 'phg', 'lat EC', 'perirhinal', 'parahippocampal gyrus', 'perrhinal cortex', 'entorhinal cortex'}; 
+phg = {'ERC', 'EC', 'PHG', 'phg', 'lat EC', 'perirhinal', 'parahippocampal gyrus', 'perrhinal cortex', 'entorhinal cortex'}; 
 mts = {'MTS', 'mts', 'mt sulcus', 'medial temporal sulcus', 'middle temporal sulcus', 'mid temp sulcus'};
 stg = {'STG', 'stg', 'superior temporal gyrus', 'sup temporal gyrus'};
-mtg = {'MTG', 'middle temp gyrus', 'middle temporal gyrus', 'middle temporal', 'mid temp gyrus' 'medial temporal gyrus', 'mtg', 'mt gyrus'};
-fus = {'fusiform', 'Fusiform', 'colateral sulcus'};
-itg = {'itg', 'ITG', 'inferior temporal gyrus', 'inf temporal gyrus', 'inferior temporal'}; 
+mtg = {'MTG', 'middle temp gyrus', 'middle temporal gyrus', 'mid temp gyrus' 'medial temporal gyrus', 'mtg', 'mt gyrus'};
+fus = {'fusiform', 'Fusiform'};
+itg = {'itg', 'ITG', 'inferior temporal gyrus', 'inf temporal gyrus'}; 
 amy = {'amy', 'amygdala', 'Amygdala'}; 
 ats = {'anterior temporal sulcus'};
-tp =  {'anterior temproral tip', 'anterior temporal', 'ant temporal pole', 'temporal pole'};
+tp =  {'anterior temporal', 'ant temporal pole', 'temporal pole'};
 its = {'inferior temporal sulcus', 'inferior temp sulcus', 'It sulcus', 'ITS'};
 ipl = {'IPL', 'ipl','angular gyrus', 'Inferior Pariatal Lobule', 'IPS', 'supramarginal'}; 
 prcg = {'Precentral gyrus', 'precentral gyrus', 'precentral', 'M1', 'dorsal motor cortex'}; 
-pocg = {'postcentral gyrus', 'postcentral', 'post central gyrus', 'Postcentral gyrus', 'S1', 's1'}; 
+pocg = {'postcentral gyrus', 'post central gyrus', 'Postcentral gyrus', 'S1', 's1'}; 
 sts = {'STS', 'sts', 'inferior bank of sts', 'superior temporal sulcus'}; 
 poc = {'Parietal occipital cortex', 'Parietal occipital sulcus'};
 mpa = {'Medial Parietal occipital', 'medial parietal', 'precuneus'}; 
-occ = {'anterior occipital', 'occipital cortex', 'V2', 'lingual', 'occ', 'medial occipital', 'occipital', 'calcarine', 'mt'};
+occ = {'anterior occipital', 'occipital cortex', 'V2', 'lingual', 'occ', 'medial occipital', 'occipital', 'calcarine'};
 toc = {'temporal occipital'};
 tpj = {'temporal parietal junction', 'TPJ', 'temporal/parietal cortex', 'temporal/parietal junction'}; 
 mcc = {'mCC', 'mid/post cing', 'mcc', 'MCC', 'middle cingulate cortex', 'medial cingulate cortex'};
 cs = {'superior central sulcus', 'central sulcus'}; 
-spl ={'superior parietal lobule', 'SPL sulcus', 'SPL'};
-par = {'parietal cortex', 'parietal', 'Pariatal/ Angular gyrus', 'SMG'}; 
+spl ={'superior parietal lobule', 'SPL sulcus'};
+par = {'parietal cortex', 'parietal'}; 
 thal = {'thalamus', 'STN', 'Thalamus'};
 
 
@@ -256,9 +190,6 @@ for li = 1:length(elec.label)
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), mfg, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'mfg'; 
                 %medial frontal gyrus 
-        elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), mpfc, 'uniformoutput', false))) > 0
-                labels{li,ii} = 'mpfc'; 
-                %medial prefrontal cortex 
         elseif sum(cellfun(@(y) ~isempty(y), cellfun(@(x) strfind(ch, x), ifg, 'uniformoutput', false))) > 0
                 labels{li,ii} = 'ifg'; 
                 %inferior frontal gyrus  
