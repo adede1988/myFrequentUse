@@ -3,7 +3,7 @@ function tVals = myArrayT(X, Y, optVal)
 Xn = size(X,1); 
 Yn = size(Y,1); 
 
-if optVal == 2
+if optVal == 2 %shuffling!!!!!..........................................
     %shuffle the data if option 2
     allIdx = [1:Xn, 1+1000:Yn+1000]; %set of X and Y specific index values
     %get a random sample indexing into allIdx agnostic of X and Y OG
