@@ -5,7 +5,7 @@ Yn = size(Y,1);
 
 if optVal == 2 %shuffling!!!!!..........................................
     %shuffle the data if option 2
-    allIdx = [1:Xn, 1+1000:Yn+1000]; %set of X and Y specific index values
+    allIdx = [1:Xn, 1+100000:Yn+100000]; %set of X and Y specific index values
     %get a random sample indexing into allIdx agnostic of X and Y OG
     %membership
     X1 = randsample(1:length(allIdx), Xn, false); 
@@ -19,13 +19,23 @@ if optVal == 2 %shuffling!!!!!..........................................
     tmpY = Y; 
     
     %get Xs drawn from X
-    X(1:sum(X2<1000),:,:) = tmpX(X2(X2<1000), :, :); 
+    idx = {X2(X2<100000), ':'};
+    dimL = length(size(tmpX));
+    if dimL>2
+        for ii = 3:dimL
+            idx{ii} = ':'; 
+        end
+    end
+    X(1:sum(X2<100000),:,:,:,:) = tmpX(idx{:}); 
     %get Xs drawn from Y
-    X(sum(X2<1000)+1:Xn, :, :) = tmpY(X2(X2>1000) - 1000, :, :);
+    idx{1} = X2(X2>100000) - 100000;
+    X(sum(X2<100000)+1:Xn, :, :) = tmpY(idx{:});
     %get Ys drawn from X
-    Y(1:sum(Y2<1000),:,:) = tmpX(Y2(Y2<1000), :, :); 
+    idx{1} = Y2(Y2<100000);
+    Y(1:sum(Y2<100000),:,:) = tmpX(idx{:}); 
     %get Ys drawn from Y
-    Y(sum(Y2<1000)+1:Yn, :, :) = tmpY(Y2(Y2>1000) - 1000, :, :);
+    idx{1} = Y2(Y2>100000) - 100000;
+    Y(sum(Y2<100000)+1:Yn, :, :) = tmpY(idx{:});
 
 end
 
