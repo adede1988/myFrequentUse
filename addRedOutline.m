@@ -1,4 +1,4 @@
-function [p_bin] = addRedOutline(p, alpha)
+function [p_bin] = addRedOutline(p, alpha, colVal)
 hold on 
 p_bin = zeros(size(p)); 
 p_bin(p<alpha) = 1; %1 = cluster!
@@ -16,7 +16,9 @@ p_bin(p_bin>1) = 1;
 for ii = 1:size(p_bin,2)
     cur = p_bin(:,ii); 
     pnt = find(cur==1);
-    scatter(pnt, ii-.5, 5, 'red', 'filled', 'square')
+    scatter(pnt-.5, ii-.5, 5, 'filled', 'square', 'MarkerEdgeColor', colVal,...
+        'MarkerFaceColor', colVal)
+%     scatter(pnt, ii, 5, colVal, 'filled', 'square')
 end
 
 end
