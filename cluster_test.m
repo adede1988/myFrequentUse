@@ -84,7 +84,7 @@ null_neg = nan(numrnd, 1);
 indvec(1:rnddim) = {':'};
 for k = 1:numrnd
     if mod(k, round(numrnd/10)) == 0
-%         fprintf('processing permutation %d of %d...\n', k, numrnd);
+        fprintf('processing permutation %d of %d...\n', k, numrnd);
     end
     
     indvec{rnddim} = k;
