@@ -39,7 +39,7 @@ tmp = tmp(:);
 dist = zeros(nsamps,1); 
 for ii = 1:nsamps
     test = randsample(tmp, ntrials); 
-    dist(ii) = mean(test,1); 
+    dist(ii) = mean(test,1, 'omitnan'); 
 end
 
 zDat = (data - mean(dist)) ./ std(dist);

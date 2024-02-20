@@ -1,0 +1,39 @@
+function outMat = multiDmirror(inMat)
+    %mirror matrix around diagonal in all sub-square matrices specified by
+    %input dimensions
+
+
+    dimVals = size(inMat); 
+    outMat = zeros(size(inMat)); 
+    switch length(dimVals)
+
+        case 2
+            outMat = inMat + inMat'; 
+
+        otherwise
+
+            for ii = 1:dimVals(end)
+                 idx = {X2(X2<100000), ':'};
+                    dimL = length(size(tmpX));
+                    if dimL>2
+                        for ii = 3:dimL
+                            idx{ii} = ':'; 
+                        end
+                    end
+
+                selectAll = cell(lengt);
+                outMat() = multiDmirror(inMat([dimVals(1:end-1),ii]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+end
