@@ -39,11 +39,6 @@ fftDat = fft(reshape(padDat,1,numel(padDat)),n_conv_pow2);
         temppower = reshape(eegconv,size(padDat));
         outTF = temppower(size(trialDat,1)+1:size(trialDat,1)*2, :); 
 
-%         % create Gaussian
-%         s  = stds(fi)*(2*pi-1)/(4*pi); % normalized width
-%         x  = hz-frex(fi);                 % shifted frequencies (pre insert the mean for the gaussian)
-%         fx = exp(-.5*(x/s).^2);    % gaussian
-%         fx = fx./abs(max(fx));     % gain-normalized
 
        
         trialTF(:,:,fi) = outTF; 
